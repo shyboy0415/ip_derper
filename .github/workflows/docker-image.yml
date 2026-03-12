@@ -45,5 +45,5 @@ jobs:
           context: ./
           push: true
           tags: |
-            yangchuansheng/ip_derper:latest
-            ghcr.io/yangchuansheng/ip_derper:latest
+            shyboy0415/ip_derper:latest
+            ghcr.io/shyboy0415/ip_derper:latest
