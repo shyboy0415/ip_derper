@@ -1,4 +1,4 @@
-原版只支持X86，增加对ARM架构的支持，大家放心食用，配合ddns-go可以搭建基于家庭宽带公网IPv6的自建Tailcale的derper节点
+原版只支持X86，增加对ARM架构的支持，大家放心食用，配合ddns-go可以搭建基于家庭宽带公网IPv6的自建Tailcale的derper节点。
 
 一健部署代码
 ```bash
