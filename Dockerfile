@@ -1,9 +1,14 @@
 FROM golang:latest AS builder
+FROM alpine
 
 LABEL org.opencontainers.image.source https://github.com/yangchuansheng/ip_derper
+LABEL name=ddns-go
+LABEL url=https://github.com/jeessy2/ddns-go
 
 WORKDIR /app
 
+COPY ddns-go /app/
+COPY zoneinfo /usr/share/zoneinfo
 ADD tailscale /app/tailscale
 
 # build modified derper
@@ -11,9 +16,9 @@ RUN cd /app/tailscale/cmd/derper && \
     CGO_ENABLED=0 /usr/local/go/bin/go build -buildvcs=false -ldflags "-s -w" -o /app/derper && \
     cd /app && \
     rm -rf /app/tailscale
+RUN apk add --no-cache curl grep
 
 FROM ubuntu:20.04
-WORKDIR /app
 
 # ========= CONFIG =========
 # - derper args
@@ -23,6 +28,11 @@ ENV DERP_HOST=127.0.0.1
 ENV DERP_CERTS=/app/certs/
 ENV DERP_STUN true
 ENV DERP_VERIFY_CLIENTS false
+# - ddns-go
+ENV TZ=Asia/Shanghai
+EXPOSE 9876
+ENTRYPOINT ["/app/ddns-go"]
+CMD ["-l", ":9876", "-f", "300"] 
 # ==========================
 
 # apt
